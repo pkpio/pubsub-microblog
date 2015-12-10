@@ -14,7 +14,9 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 /**
- * PubSub example :
+ * This is the entry point for client application.
+ * 
+ * PubSub example reference :
  * http://www.coderpanda.com/jms-domains-publish-subscribe-jms-messaging-domain/
  * 
  * @author praveen
