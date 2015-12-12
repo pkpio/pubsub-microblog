@@ -8,18 +8,18 @@ import com.tk.client.control.ClientCtrl;
  *
  * @author Ram
  */
-public class SubscriptionApplication extends javax.swing.JFrame {
+public class MicroBlogApp extends javax.swing.JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private LogInPanel loginPanel;
-	private Messages messagePanel;
+	private MessagesPanel messagePanel;
 	public String userName;
 	ClientCtrl control;
 
-	public SubscriptionApplication() {
+	public MicroBlogApp() {
 		initComponents();
 	}
 
@@ -39,15 +39,20 @@ public class SubscriptionApplication extends javax.swing.JFrame {
 	void displayMessage(String userName) {
 		this.userName = userName;
 		control = new ClientCtrl(this);
-		messagePanel = new Messages(this, control);
+		messagePanel = new MessagesPanel(this, control);
 		this.remove(loginPanel);
 		this.getContentPane().add(messagePanel);
 		this.revalidate();
 		this.repaint();
 	}
 
+	/**
+	 * Entry point of the app
+	 * 
+	 * @param args
+	 */
 	public static void main(String args[]) {
-		new SubscriptionApplication().begin();
+		new MicroBlogApp().begin();
 	}
 
 	void begin() {
@@ -64,7 +69,7 @@ public class SubscriptionApplication extends javax.swing.JFrame {
 
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new SubscriptionApplication().setVisible(true);
+				new MicroBlogApp().setVisible(true);
 			}
 		});
 	}

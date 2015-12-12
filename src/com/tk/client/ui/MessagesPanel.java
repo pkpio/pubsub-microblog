@@ -16,18 +16,18 @@ import com.tk.client.control.ClientCtrl;
  *
  * @author Ram
  */
-public class Messages extends javax.swing.JPanel {
+public class MessagesPanel extends javax.swing.JPanel {
 	/**
 		 * 
 		 */
 	private static final long serialVersionUID = 1L;
-	private SubscriptionApplication sub;
+	private MicroBlogApp sub;
 	private ClientCtrl control;
 
 	/**
 	 * Creates new form Messages
 	 */
-	public Messages(SubscriptionApplication sub, ClientCtrl control) {
+	public MessagesPanel(MicroBlogApp sub, ClientCtrl control) {
 		this.sub = sub;
 		this.control = control;
 		initComponents();
@@ -178,7 +178,7 @@ public class Messages extends javax.swing.JPanel {
 	private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
 		if (!this.newMessageTextArea.getText().isEmpty() && !this.tagsForMessage.getText().isEmpty()) {
-			control.sendMessage(newMessageTextArea.getText().trim());
+			control.sendMessage(newMessageTextArea.getText().trim(),tagsForMessage.getText().trim());
 		} else
 			JOptionPane.showMessageDialog(sub, "Either of Message and Tags can not be empty in order to send a message",
 					"Error", JOptionPane.ERROR_MESSAGE);

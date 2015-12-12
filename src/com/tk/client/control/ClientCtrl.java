@@ -1,16 +1,16 @@
 package com.tk.client.control;
 
-import com.tk.client.ui.SubscriptionApplication;
+import com.tk.client.ui.MicroBlogApp;
 
 public class ClientCtrl {
-	private SubscriptionApplication sub;
+	private MicroBlogApp sub;
 
 	/**
 	 * Constructor with subscriptionPanel object
 	 * 
 	 * @param sub
 	 */
-	public ClientCtrl(SubscriptionApplication sub) {
+	public ClientCtrl(MicroBlogApp sub) {
 		this.sub = sub;
 	}
 
@@ -64,7 +64,7 @@ public class ClientCtrl {
 	 * 
 	 * @param message
 	 */
-	public void sendMessage(String message) {
+	public void sendMessage(String message,String tags) {
 		// TODO code to send message to queue
 
 	}
