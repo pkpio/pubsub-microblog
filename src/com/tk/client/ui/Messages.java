@@ -1,6 +1,14 @@
 package com.tk.client.ui;
 
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+
+import javax.management.monitor.CounterMonitorMBean;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import org.apache.activemq.store.jpa.JPAMessageStore;
 
 import com.tk.client.control.ClientCtrl;
 
@@ -32,22 +40,25 @@ public class Messages extends javax.swing.JPanel {
 		messagesListTextArea = new javax.swing.JTextArea();
 		// scroll pane for new message text area
 		newMessageScrollPane = new javax.swing.JScrollPane();
-		//text are to add new message
+		// text are to add new message
 		newMessageTextArea = new javax.swing.JTextArea();
+		tagsForMessage = new javax.swing.JTextField();
+
 		sendMessageButton = new javax.swing.JButton();
-		//Label to display welcome+username
+		// Label to display welcome+username
 		welcomeMessageLabel = new javax.swing.JLabel();
 		// Label to on top of messageList text area
 		messageListLabel = new javax.swing.JLabel();
-		// Text field for tags 
+		// Text field for tags
 		enterTagsTextField = new javax.swing.JTextField();
 		subscribeButton = new javax.swing.JButton();
 		unSubscribeButton = new javax.swing.JButton();
-		//scrollpane for text area which displays the subscription list
+		// scrollpane for text area which displays the subscription list
 		subscriptionListScrollPane = new javax.swing.JScrollPane();
-		//List of tags user has been subscribed to, can be set to invisible if not required
+		// List of tags user has been subscribed to, can be set to invisible if
+		// not required
 		subscritionListTextArea = new javax.swing.JTextArea();
-		//Label above aubscriptiion list text area
+		// Label above aubscriptiion list text area
 		subscriptionListLabel = new javax.swing.JLabel();
 
 		messagesListTextArea.setEditable(false);
@@ -56,7 +67,7 @@ public class Messages extends javax.swing.JPanel {
 		messageTextAreaScrollPane.setViewportView(messagesListTextArea);
 
 		newMessageTextArea.setColumns(20);
-		newMessageTextArea.setRows(5);
+		newMessageTextArea.setRows(10);
 		newMessageScrollPane.setViewportView(newMessageTextArea);
 
 		sendMessageButton.setText("Send Message");
@@ -86,6 +97,18 @@ public class Messages extends javax.swing.JPanel {
 				unSubscribeButtonActionPerformed(evt);
 			}
 		});
+		JPanel complexpanel = new JPanel();
+		complexpanel.setLayout(new GridLayout(2, 1));
+		JPanel tagsPanel = new JPanel();
+		FlowLayout tagLayout = new FlowLayout();
+		tagLayout.setHgap(10);
+		tagsPanel.setLayout(tagLayout);
+		tagsPanel.setAlignmentX(LEFT_ALIGNMENT);
+		tagsPanel.add(new JLabel("Message tags"));
+		tagsPanel.add(tagsForMessage);
+		complexpanel.add(newMessageScrollPane);
+
+		complexpanel.add(tagsPanel);
 
 		subscritionListTextArea.setEditable(false);
 		subscritionListTextArea.setColumns(20);
@@ -106,9 +129,10 @@ public class Messages extends javax.swing.JPanel {
 								.addContainerGap())
 						.addGroup(layout.createSequentialGroup().addGap(11, 11, 11).addComponent(welcomeMessageLabel)
 								.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGroup(layout.createSequentialGroup()
-								.addComponent(newMessageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 292,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGroup(layout.createSequentialGroup().addComponent(
+
+								complexpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 292,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(sendMessageButton)
 								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197,
@@ -145,17 +169,19 @@ public class Messages extends javax.swing.JPanel {
 								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
 										.addComponent(unSubscribeButton).addComponent(subscribeButton)))
-								.addComponent(newMessageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 70,
+								.addComponent(complexpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 70,
 										javax.swing.GroupLayout.PREFERRED_SIZE)))
 						.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
 								layout.createSequentialGroup().addComponent(sendMessageButton)))));
 	}
 
 	private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		if (!this.newMessageTextArea.getText().isEmpty()) {
+
+		if (!this.newMessageTextArea.getText().isEmpty() && !this.tagsForMessage.getText().isEmpty()) {
 			control.sendMessage(newMessageTextArea.getText().trim());
 		} else
-			JOptionPane.showMessageDialog(sub, "Message can not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(sub, "Either of Message and Tags can not be empty in order to send a message",
+					"Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 	private void subscribeButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,5 +212,7 @@ public class Messages extends javax.swing.JPanel {
 	public javax.swing.JTextArea subscritionListTextArea;
 	private javax.swing.JButton unSubscribeButton;
 	private javax.swing.JLabel welcomeMessageLabel;
+
+	private javax.swing.JTextField tagsForMessage;
 	// End of variables declaration
 }
