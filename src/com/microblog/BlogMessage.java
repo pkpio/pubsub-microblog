@@ -1,5 +1,6 @@
 package com.microblog;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,18 +10,19 @@ import java.util.List;
  * @author praveen
  *
  */
-public class Message {
+public class BlogMessage implements Serializable {
+	private static final long serialVersionUID = 3510365478291108428L;
 	String username;
 	ArrayList<String> tags;
 	String text;
 
-	public Message(String username, ArrayList<String> tags, String text) {
+	public BlogMessage(String username, ArrayList<String> tags, String text) {
 		this.username = username;
 		this.tags = tags;
 		this.text = text;
 	}
 
-	public Message(String username, String text) {
+	public BlogMessage(String username, String text) {
 		this.username = username;
 		this.tags = new ArrayList<String>();
 		this.text = text;
