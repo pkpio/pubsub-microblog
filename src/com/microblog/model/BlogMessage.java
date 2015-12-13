@@ -1,4 +1,4 @@
-package com.microblog;
+package com.microblog.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

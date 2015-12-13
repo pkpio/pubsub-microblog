@@ -1,16 +1,13 @@
-package com.tk.client.ui;
+package com.microblog.view;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
-import javax.management.monitor.CounterMonitorMBean;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.apache.activemq.store.jpa.JPAMessageStore;
-
-import com.tk.client.control.ClientCtrl;
+import com.microblog.control.ClientCtrl;
 
 /**
  *
@@ -68,7 +65,10 @@ public class MessagesPanel extends javax.swing.JPanel {
 
 		newMessageTextArea.setColumns(20);
 		newMessageTextArea.setRows(10);
+		newMessageTextArea.setText("Enter new message here!");
 		newMessageScrollPane.setViewportView(newMessageTextArea);
+		
+		tagsForMessage.setColumns(20);
 
 		sendMessageButton.setText("Send Message");
 		sendMessageButton.addActionListener(new java.awt.event.ActionListener() {
@@ -104,7 +104,7 @@ public class MessagesPanel extends javax.swing.JPanel {
 		tagLayout.setHgap(10);
 		tagsPanel.setLayout(tagLayout);
 		tagsPanel.setAlignmentX(LEFT_ALIGNMENT);
-		tagsPanel.add(new JLabel("Message tags"));
+		tagsPanel.add(new JLabel("Tags"));
 		tagsPanel.add(tagsForMessage);
 		complexpanel.add(newMessageScrollPane);
 

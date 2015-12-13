@@ -1,4 +1,4 @@
-package com.tk.client.ui;
+package com.microblog.view;
 
 import javax.swing.JOptionPane;
 

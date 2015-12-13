@@ -1,7 +1,9 @@
-package com.microblog;
+package com.microblog.control;
 
 import javax.jms.JMSException;
 import javax.jms.MessageListener;
+
+import com.microblog.model.BlogMessage;
 
 public interface BlogUiCtrl {
 

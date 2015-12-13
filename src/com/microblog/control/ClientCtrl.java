@@ -1,6 +1,6 @@
-package com.tk.client.control;
+package com.microblog.control;
 
-import com.tk.client.ui.MicroBlogApp;
+import com.microblog.view.MicroBlogApp;
 
 public class ClientCtrl {
 	private MicroBlogApp sub;

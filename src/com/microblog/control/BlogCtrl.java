@@ -1,4 +1,4 @@
-package com.microblog;
+package com.microblog.control;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +13,8 @@ import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+
+import com.microblog.model.BlogMessage;
 
 public class BlogCtrl implements BlogUiCtrl {
 	Connection mConnection;

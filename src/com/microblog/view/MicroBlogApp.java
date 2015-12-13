@@ -1,8 +1,8 @@
-package com.tk.client.ui;
+package com.microblog.view;
 
 import java.awt.GridLayout;
 
-import com.tk.client.control.ClientCtrl;
+import com.microblog.control.ClientCtrl;
 
 /**
  *

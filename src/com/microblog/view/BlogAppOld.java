@@ -1,4 +1,4 @@
-package com.microblog;
+package com.microblog.view;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -22,7 +22,7 @@ import javax.jms.TextMessage;
  * @author praveen
  *
  */
-public class BlogApp {
+public class BlogAppOld {
 	public static void main(String[] args) throws Exception {
 		thread(new HelloWorldProducer(), false);
 		thread(new HelloWorldProducer(), false);
