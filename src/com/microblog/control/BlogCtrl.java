@@ -15,8 +15,10 @@ import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import com.microblog.model.BlogMessage;
+import com.microblog.view.BlogApp;
 
 public class BlogCtrl implements BlogUiCtrl {
+	BlogApp mBlogApp;
 	Connection mConnection;
 	Session mSession;
 
@@ -24,7 +26,9 @@ public class BlogCtrl implements BlogUiCtrl {
 	HashMap<String, MessageProducer> mProducers = new HashMap<String, MessageProducer>();
 	HashMap<String, MessageConsumer> mConsumers = new HashMap<String, MessageConsumer>();
 
-	public BlogCtrl() throws JMSException {
+	public BlogCtrl(BlogApp blogApp) throws JMSException {
+		mBlogApp = blogApp;
+
 		// Create a ConnectionFactory
 		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost");
 

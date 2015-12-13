@@ -1,6 +1,7 @@
 package com.microblog.view;
 
 import java.awt.GridLayout;
+import java.util.List;
 
 import com.microblog.control.ClientCtrl;
 
@@ -8,7 +9,7 @@ import com.microblog.control.ClientCtrl;
  *
  * @author Ram
  */
-public class MicroBlogApp extends javax.swing.JFrame {
+public class BlogApp extends javax.swing.JFrame {
 
 	/**
 	 * 
@@ -19,7 +20,7 @@ public class MicroBlogApp extends javax.swing.JFrame {
 	public String userName;
 	ClientCtrl control;
 
-	public MicroBlogApp() {
+	public BlogApp() {
 		initComponents();
 	}
 
@@ -52,7 +53,7 @@ public class MicroBlogApp extends javax.swing.JFrame {
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		new MicroBlogApp().begin();
+		new BlogApp().begin();
 	}
 
 	void begin() {
@@ -69,7 +70,7 @@ public class MicroBlogApp extends javax.swing.JFrame {
 
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new MicroBlogApp().setVisible(true);
+				new BlogApp().setVisible(true);
 			}
 		});
 	}
@@ -81,7 +82,7 @@ public class MicroBlogApp extends javax.swing.JFrame {
 	 * @param user
 	 * @param tags
 	 */
-	public void updateMessages(String message, String user, String tags) {
+	public void addNewMessageToUI(String message, String user, String tags) {
 		String msg = "From : " + user + "\n" + "Message: " + message + "\n" + "Tags : " + tags + "\n"
 				+ "========================================\n";
 		this.messagePanel.messagesListTextArea.append(msg);
@@ -93,8 +94,12 @@ public class MicroBlogApp extends javax.swing.JFrame {
 	 * 
 	 * @param subscriptionList
 	 */
-	public void updateSubscription(String subscriptionList) {
-		this.messagePanel.subscritionListTextArea.setText(subscriptionList);
+	public void updateSubscriptionList(List<String> subscriptionList) {
+		String listText = "";
+		if (subscriptionList != null)
+			for (int i = 0; i < subscriptionList.size(); i++)
+				listText += subscriptionList.get(i) + "\n";
+		this.messagePanel.subscritionListTextArea.setText(listText);
 
 	}
 

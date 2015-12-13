@@ -11,12 +11,12 @@ public class LogInPanel extends javax.swing.JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	MicroBlogApp sub;
+	BlogApp sub;
 
 	/**
 	 * Creates new form LogInPanel
 	 */
-	public LogInPanel(MicroBlogApp sub) {
+	public LogInPanel(BlogApp sub) {
 		this.sub = sub;
 		initComponents();
 	}

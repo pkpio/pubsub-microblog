@@ -18,13 +18,13 @@ public class MessagesPanel extends javax.swing.JPanel {
 		 * 
 		 */
 	private static final long serialVersionUID = 1L;
-	private MicroBlogApp sub;
+	private BlogApp sub;
 	private ClientCtrl control;
 
 	/**
 	 * Creates new form Messages
 	 */
-	public MessagesPanel(MicroBlogApp sub, ClientCtrl control) {
+	public MessagesPanel(BlogApp sub, ClientCtrl control) {
 		this.sub = sub;
 		this.control = control;
 		initComponents();

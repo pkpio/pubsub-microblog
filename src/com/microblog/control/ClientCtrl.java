@@ -1,16 +1,18 @@
 package com.microblog.control;
 
-import com.microblog.view.MicroBlogApp;
+import java.util.List;
+
+import com.microblog.view.BlogApp;
 
 public class ClientCtrl {
-	private MicroBlogApp sub;
+	private BlogApp sub;
 
 	/**
 	 * Constructor with subscriptionPanel object
 	 * 
 	 * @param sub
 	 */
-	public ClientCtrl(MicroBlogApp sub) {
+	public ClientCtrl(BlogApp sub) {
 		this.sub = sub;
 	}
 
@@ -28,7 +30,7 @@ public class ClientCtrl {
 		/**
 		 * update the messages list , send message, user and tags list as parm
 		 */
-		sub.updateMessages(msg, user, tags);
+		sub.addNewMessageToUI(msg, user, tags);
 	}
 
 	/**
@@ -37,8 +39,8 @@ public class ClientCtrl {
 	 * 
 	 * @param subscriptionList
 	 */
-	public void updateSubscriptionPanel(String subscriptionList) {
-		sub.updateSubscription(subscriptionList);
+	public void updateSubscriptionPanel(List<String> subscriptionList) {
+		sub.updateSubscriptionList(subscriptionList);
 	}
 
 	/**
