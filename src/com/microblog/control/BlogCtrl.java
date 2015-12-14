@@ -1,5 +1,6 @@
 package com.microblog.control;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -66,9 +67,19 @@ public class BlogCtrl implements BlogUiCtrl, MessageListener {
 
 			// Add to list of known consumers
 			mConsumers.put(channelName, consumer);
+
+			// Update UI
+			updateSubscriptionListUI();
 		} else {
 			System.out.println("Duplicate subscription for " + channelName);
 		}
+	}
+
+	private void updateSubscriptionListUI() {
+		List<String> subs = new ArrayList<String>();
+		for (String sub : mConsumers.keySet())
+			subs.add(sub);
+		mBlogApp.updateSubscriptionList(subs);
 	}
 
 	@Override
@@ -119,6 +130,9 @@ public class BlogCtrl implements BlogUiCtrl, MessageListener {
 		MessageConsumer consumer = mConsumers.remove(channelName);
 		if (consumer != null)
 			consumer.close();
+
+		// Update UI
+		updateSubscriptionListUI();
 	}
 
 	@Override

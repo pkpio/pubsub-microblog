@@ -1,6 +1,7 @@
 package com.microblog.view;
 
 import java.awt.GridLayout;
+import java.util.List;
 
 import javax.jms.JMSException;
 
@@ -106,11 +107,11 @@ public class BlogApp extends javax.swing.JFrame {
 	 * 
 	 * @param subscriptionList
 	 */
-	public void updateSubscriptionList(String[] subscriptionList) {
+	public void updateSubscriptionList(List<String> subscriptionList) {
 		String listText = "";
 		if (subscriptionList != null)
-			for (int i = 0; i < subscriptionList.length; i++)
-				listText += subscriptionList[i] + "\n";
+			for (int i = 0; i < subscriptionList.size(); i++)
+				listText += subscriptionList.get(i) + "\n";
 		this.messagePanel.subscritionListTextArea.setText(listText);
 
 	}
