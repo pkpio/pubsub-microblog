@@ -33,7 +33,7 @@ public class BlogCtrl implements BlogUiCtrl, MessageListener {
 
 		// Create a ConnectionFactory
 		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
-				"tcp://localhost:61616");
+				ActiveMQConnectionFactory.DEFAULT_BROKER_URL);
 
 		// Create a Connection
 		mConnection = connectionFactory.createConnection();
