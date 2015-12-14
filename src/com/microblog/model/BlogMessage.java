@@ -13,7 +13,7 @@ import java.util.List;
 public class BlogMessage implements Serializable {
 	private static final long serialVersionUID = 3510365478291108428L;
 	String username;
-	ArrayList<String> tags;
+	List<String> tags;
 	String text;
 
 	public BlogMessage(String username, ArrayList<String> tags, String text) {
@@ -40,7 +40,7 @@ public class BlogMessage implements Serializable {
 		return tags;
 	}
 
-	public void setTags(ArrayList<String> tags) {
+	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
 

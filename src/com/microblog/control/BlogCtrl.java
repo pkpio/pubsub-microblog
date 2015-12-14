@@ -42,7 +42,7 @@ public class BlogCtrl implements BlogUiCtrl, MessageListener {
 
 		// Create a Session
 		mSession = mConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-		System.out.println("All done!");
+		System.out.println("Connected to message broker!");
 	}
 
 	@Override

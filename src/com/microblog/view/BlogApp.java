@@ -8,6 +8,7 @@ import javax.jms.JMSException;
 import com.microblog.control.BlogCtrl;
 import com.microblog.control.BlogUiCtrl;
 import com.microblog.model.BlogMessage;
+import com.microblog.util.Helper;
 
 /**
  *
@@ -95,7 +96,7 @@ public class BlogApp extends javax.swing.JFrame {
 	public void addNewMessageToUI(BlogMessage rawMsg) {
 		String user = rawMsg.getUsername();
 		String message = rawMsg.getText();
-		String tags = rawMsg.getTags().get(0); // -TODO- Tags fix
+		String tags = Helper.getTagsCSV(rawMsg.getTags());
 		String msg = "From : " + user + "\n" + "Message: " + message + "\n" + "Tags : " + tags + "\n"
 				+ "========================================\n";
 		this.messagePanel.messagesListTextArea.append(msg);

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import com.microblog.control.BlogUiCtrl;
 import com.microblog.model.BlogMessage;
+import com.microblog.util.Helper;
 
 /**
  *
@@ -57,7 +58,7 @@ public class MessagesPanel extends javax.swing.JPanel {
 		// List of tags user has been subscribed to, can be set to invisible if
 		// not required
 		subscritionListTextArea = new javax.swing.JTextArea();
-		// Label above aubscriptiion list text area
+		// Label above subscription list text area
 		subscriptionListLabel = new javax.swing.JLabel();
 
 		messagesListTextArea.setEditable(false);
@@ -67,10 +68,10 @@ public class MessagesPanel extends javax.swing.JPanel {
 
 		newMessageTextArea.setColumns(20);
 		newMessageTextArea.setRows(10);
-		newMessageTextArea.setText("Enter new message here!");
+		newMessageTextArea.setText("Your message here..");
 		newMessageScrollPane.setViewportView(newMessageTextArea);
 
-		tagsForMessage.setColumns(20);
+		tagsForMessage.setColumns(15);
 
 		sendMessageButton.setText("Send Message");
 		sendMessageButton.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +107,7 @@ public class MessagesPanel extends javax.swing.JPanel {
 		tagLayout.setHgap(10);
 		tagsPanel.setLayout(tagLayout);
 		tagsPanel.setAlignmentX(LEFT_ALIGNMENT);
-		tagsPanel.add(new JLabel("Tags"));
+		tagsPanel.add(new JLabel("Tags in CSV : "));
 		tagsPanel.add(tagsForMessage);
 		complexpanel.add(newMessageScrollPane);
 
@@ -181,9 +182,9 @@ public class MessagesPanel extends javax.swing.JPanel {
 
 		if (!this.newMessageTextArea.getText().isEmpty() && !this.tagsForMessage.getText().isEmpty()) {
 			BlogMessage rawMsg = new BlogMessage(control.getUsername(), newMessageTextArea.getText().trim());
-			rawMsg.addTag(tagsForMessage.getText().trim());
+			rawMsg.setTags(Helper.getTags(tagsForMessage.getText().trim()));
 			try {
-				control.sendMessage(rawMsg); // -TODO- Handle list of tags
+				control.sendMessage(rawMsg);
 			} catch (JMSException e) {
 				System.out.println("Error sending message");
 				e.printStackTrace();
