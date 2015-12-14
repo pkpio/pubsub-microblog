@@ -1,0 +1,50 @@
+<project>
+
+	<description>
+		TK1 - Programmieraufgabe 2
+	</description>
+
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+	<property name="rel.lib.path" value="../lib/activemq-all.jar ../lib/gson-2.2.2.jar" />
+
+	<target name="clean">
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<tstamp />
+		<mkdir dir="${build}" />
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+			<classpath>
+				<pathelement path="lib/activemq-all.jar" />
+				<pathelement path="lib/gson-2.2.2.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="${dist}/blogger.jar" basedir="${build}">
+			<manifest>
+				<attribute name="Main-Class" value="com.microblog.view.BlogApp" />
+				<attribute name="Class-Path" value="${rel.lib.path}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="start-clients" depends="jar">
+		<parallel>
+			<java jar="${dist}/blogger.jar" fork="true" failonerror="true" />
+			<java jar="${dist}/blogger.jar" fork="true" failonerror="true" />
+		</parallel>
+	</target>
+
+	<target name="default" depends="start-clients">
+	</target>
+
+</project>
