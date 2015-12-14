@@ -1,9 +1,12 @@
 package com.microblog.view;
 
 import java.awt.GridLayout;
-import java.util.List;
 
-import com.microblog.control.ClientCtrl;
+import javax.jms.JMSException;
+
+import com.microblog.control.BlogCtrl;
+import com.microblog.control.BlogUiCtrl;
+import com.microblog.model.BlogMessage;
 
 /**
  *
@@ -18,7 +21,7 @@ public class BlogApp extends javax.swing.JFrame {
 	private LogInPanel loginPanel;
 	private MessagesPanel messagePanel;
 	public String userName;
-	ClientCtrl control;
+	BlogUiCtrl control;
 
 	public BlogApp() {
 		initComponents();
@@ -39,7 +42,13 @@ public class BlogApp extends javax.swing.JFrame {
 
 	void displayMessage(String userName) {
 		this.userName = userName;
-		control = new ClientCtrl(this);
+		try {
+			control = new BlogCtrl(this);
+			control.setUsername(userName);
+		} catch (JMSException e) {
+			System.out.println("Controller init failed!");
+			e.printStackTrace();
+		}
 		messagePanel = new MessagesPanel(this, control);
 		this.remove(loginPanel);
 		this.getContentPane().add(messagePanel);
@@ -82,7 +91,10 @@ public class BlogApp extends javax.swing.JFrame {
 	 * @param user
 	 * @param tags
 	 */
-	public void addNewMessageToUI(String message, String user, String tags) {
+	public void addNewMessageToUI(BlogMessage rawMsg) {
+		String user = rawMsg.getUsername();
+		String message = rawMsg.getText();
+		String tags = rawMsg.getTags().get(0); // -TODO- Tags fix
 		String msg = "From : " + user + "\n" + "Message: " + message + "\n" + "Tags : " + tags + "\n"
 				+ "========================================\n";
 		this.messagePanel.messagesListTextArea.append(msg);
@@ -94,11 +106,11 @@ public class BlogApp extends javax.swing.JFrame {
 	 * 
 	 * @param subscriptionList
 	 */
-	public void updateSubscriptionList(List<String> subscriptionList) {
+	public void updateSubscriptionList(String[] subscriptionList) {
 		String listText = "";
 		if (subscriptionList != null)
-			for (int i = 0; i < subscriptionList.size(); i++)
-				listText += subscriptionList.get(i) + "\n";
+			for (int i = 0; i < subscriptionList.length; i++)
+				listText += subscriptionList[i] + "\n";
 		this.messagePanel.subscritionListTextArea.setText(listText);
 
 	}

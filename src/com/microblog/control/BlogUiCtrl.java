@@ -1,7 +1,6 @@
 package com.microblog.control;
 
 import javax.jms.JMSException;
-import javax.jms.MessageListener;
 
 import com.microblog.model.BlogMessage;
 
@@ -19,10 +18,8 @@ public interface BlogUiCtrl {
 	 * 
 	 * @param channelName
 	 *            Channel name
-	 * @param listener
-	 *            Listener to deliver messages to
 	 */
-	public void subscribe(String channelName, MessageListener listener) throws JMSException;
+	public void subscribe(String channelName) throws JMSException;
 
 	/**
 	 * Send a blog message. Channel name(s) are derived from tags
@@ -44,5 +41,12 @@ public interface BlogUiCtrl {
 	 * Cleanup connections. To be done while closing the app.
 	 */
 	public void cleanup() throws JMSException;
+
+	/**
+	 * Get username of the user
+	 * 
+	 * @return
+	 */
+	public String getUsername();
 
 }

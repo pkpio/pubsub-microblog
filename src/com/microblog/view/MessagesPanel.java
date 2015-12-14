@@ -3,11 +3,13 @@ package com.microblog.view;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
+import javax.jms.JMSException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.microblog.control.ClientCtrl;
+import com.microblog.control.BlogUiCtrl;
+import com.microblog.model.BlogMessage;
 
 /**
  *
@@ -19,12 +21,12 @@ public class MessagesPanel extends javax.swing.JPanel {
 		 */
 	private static final long serialVersionUID = 1L;
 	private BlogApp sub;
-	private ClientCtrl control;
+	private BlogUiCtrl control;
 
 	/**
 	 * Creates new form Messages
 	 */
-	public MessagesPanel(BlogApp sub, ClientCtrl control) {
+	public MessagesPanel(BlogApp sub, BlogUiCtrl control) {
 		this.sub = sub;
 		this.control = control;
 		initComponents();
@@ -67,7 +69,7 @@ public class MessagesPanel extends javax.swing.JPanel {
 		newMessageTextArea.setRows(10);
 		newMessageTextArea.setText("Enter new message here!");
 		newMessageScrollPane.setViewportView(newMessageTextArea);
-		
+
 		tagsForMessage.setColumns(20);
 
 		sendMessageButton.setText("Send Message");
@@ -178,7 +180,14 @@ public class MessagesPanel extends javax.swing.JPanel {
 	private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
 		if (!this.newMessageTextArea.getText().isEmpty() && !this.tagsForMessage.getText().isEmpty()) {
-			control.sendMessage(newMessageTextArea.getText().trim(),tagsForMessage.getText().trim());
+			BlogMessage rawMsg = new BlogMessage(control.getUsername(), newMessageTextArea.getText().trim());
+			rawMsg.addTag(tagsForMessage.getText().trim());
+			try {
+				control.sendMessage(rawMsg); // -TODO- Handle list of tags
+			} catch (JMSException e) {
+				System.out.println("Error sending message");
+				e.printStackTrace();
+			}
 		} else
 			JOptionPane.showMessageDialog(sub, "Either of Message and Tags can not be empty in order to send a message",
 					"Error", JOptionPane.ERROR_MESSAGE);
@@ -186,14 +195,24 @@ public class MessagesPanel extends javax.swing.JPanel {
 
 	private void subscribeButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		if (!this.enterTagsTextField.getText().isEmpty()) {
-			control.addSubscription(this.enterTagsTextField.getText().trim());
+			try {
+				control.subscribe(this.enterTagsTextField.getText().trim());
+			} catch (JMSException e) {
+				System.out.println("Subscription failed!");
+				e.printStackTrace();
+			}
 		} else
 			JOptionPane.showMessageDialog(sub, "Please mention one or more tags", "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 	private void unSubscribeButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		if (!this.enterTagsTextField.getText().isEmpty()) {
-			control.removeSubscription(this.enterTagsTextField.getText().trim());
+			try {
+				control.unsubscribe(this.enterTagsTextField.getText().trim());
+			} catch (JMSException e) {
+				System.out.println("Unsubscribe failed!");
+				e.printStackTrace();
+			}
 		} else
 			JOptionPane.showMessageDialog(sub, "Please mention one or more tags", "Error", JOptionPane.ERROR_MESSAGE);
 	}

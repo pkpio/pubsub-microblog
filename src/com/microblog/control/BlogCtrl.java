@@ -6,18 +6,20 @@ import java.util.List;
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
+import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
+import com.google.gson.Gson;
 import com.microblog.model.BlogMessage;
 import com.microblog.view.BlogApp;
 
-public class BlogCtrl implements BlogUiCtrl {
+public class BlogCtrl implements BlogUiCtrl, MessageListener {
 	BlogApp mBlogApp;
 	Connection mConnection;
 	Session mSession;
@@ -30,7 +32,8 @@ public class BlogCtrl implements BlogUiCtrl {
 		mBlogApp = blogApp;
 
 		// Create a ConnectionFactory
-		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost");
+		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
+				"tcp://localhost:61616");
 
 		// Create a Connection
 		mConnection = connectionFactory.createConnection();
@@ -38,6 +41,7 @@ public class BlogCtrl implements BlogUiCtrl {
 
 		// Create a Session
 		mSession = mConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+		System.out.println("All done!");
 	}
 
 	@Override
@@ -47,8 +51,10 @@ public class BlogCtrl implements BlogUiCtrl {
 	}
 
 	@Override
-	public void subscribe(String channelName, MessageListener listener) throws JMSException {
+	public void subscribe(String channelName) throws JMSException {
 		if (!mConsumers.containsKey(channelName)) {
+			System.out.println("Subscribing for channel : " + channelName);
+
 			// Create the destination (Topic or Queue)
 			Destination destination = mSession.createQueue(channelName);
 
@@ -56,7 +62,7 @@ public class BlogCtrl implements BlogUiCtrl {
 			MessageConsumer consumer = mSession.createConsumer(destination);
 
 			// Add message listener for this consumer
-			consumer.setMessageListener(listener);
+			consumer.setMessageListener(this);
 
 			// Add to list of known consumers
 			mConsumers.put(channelName, consumer);
@@ -68,18 +74,19 @@ public class BlogCtrl implements BlogUiCtrl {
 	@Override
 	public void sendMessage(BlogMessage blogMsg) throws JMSException {
 		// Create a object message for BlogMsg
-		ObjectMessage objMsg = mSession.createObjectMessage(blogMsg);
+		TextMessage txtMsg = mSession.createTextMessage(new Gson().toJson(blogMsg));
 
 		// Send message on user's channel
-		mProducers.get(blogMsg.getUsername()).send(objMsg);
+		MessageProducer producer = getProducer(blogMsg.getUsername());
+		producer.send(txtMsg);
 
 		// Send it for all channel names in the tag list
 		List<String> tags = blogMsg.getTags();
 		if (tags == null)
 			return;
 		for (int i = 0; i < tags.size(); i++) {
-			MessageProducer producer = getProducer(tags.get(i));
-			producer.send(objMsg);
+			producer = getProducer(tags.get(i));
+			producer.send(txtMsg);
 		}
 	}
 
@@ -120,6 +127,28 @@ public class BlogCtrl implements BlogUiCtrl {
 		// -TODO- remove producers
 		mSession.close();
 		mConnection.close();
+	}
+
+	@Override
+	public void onMessage(Message msg) {
+		if (msg instanceof TextMessage) {
+			TextMessage txtMsg = (TextMessage) msg;
+			try {
+				BlogMessage blogMsg = new Gson().fromJson(txtMsg.getText(), BlogMessage.class);
+				System.out.println("New message from : " + blogMsg.getUsername() + " on channel : "
+						+ msg.getJMSDestination().toString());
+				mBlogApp.addNewMessageToUI(blogMsg);
+			} catch (JMSException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Non-text message received");
+		}
+	}
+
+	@Override
+	public String getUsername() {
+		return mUsername;
 	}
 
 }
