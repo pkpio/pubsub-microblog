@@ -57,7 +57,7 @@ public class BlogCtrl implements BlogUiCtrl, MessageListener {
 			System.out.println("Subscribing for channel : " + channelName);
 
 			// Create the destination (Topic or Queue)
-			Destination destination = mSession.createQueue(channelName);
+			Destination destination = mSession.createTopic(channelName);
 
 			// Create a MessageConsumer from the Session to the Topic
 			MessageConsumer consumer = mSession.createConsumer(destination);
@@ -113,7 +113,7 @@ public class BlogCtrl implements BlogUiCtrl, MessageListener {
 
 		if (producer == null) {
 			// Create the destination for Topic
-			Destination destination = mSession.createQueue(channelName);
+			Destination destination = mSession.createTopic(channelName);
 
 			// Create a MessageProducer from the Session to the Topic
 			producer = mSession.createProducer(destination);
